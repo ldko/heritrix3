@@ -138,6 +138,19 @@ public class ExtractorYoutubeDL extends Extractor
         this.crawlerLoggerModule = crawlerLoggerModule;
     }
 
+    /**
+     * Extra arguments for youtube-dl.
+     */
+    {
+        setExtraArgs("");
+    }
+    public String getExtraArgs() {
+        return (String) kp.get("extraArgs");
+    }
+    public void setExtraArgs(String extraArgs) {
+        kp.put("extraArgs", extraArgs);
+    }
+
     @Override
     public void start() {
         if (!isRunning) {
@@ -420,7 +433,8 @@ public class ExtractorYoutubeDL extends Extractor
          */
         ProcessBuilder pb = new ProcessBuilder("youtube-dl", "--ignore-config",
                 "--simulate", "--dump-single-json", "--format=best",
-                "--playlist-end=" + MAX_VIDEOS_PER_PAGE, uri.toString());
+                "--playlist-end=" + MAX_VIDEOS_PER_PAGE, getExtraArgs(),
+                uri.toString());
         logger.info("running: " + String.join(" ", pb.command()));
 
         Process proc = null;
